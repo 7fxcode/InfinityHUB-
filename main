@@ -1,0 +1,271 @@
+if game.PlaceId == 155615604 then
+    local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+    local Window = Library.CreateLib("InfinityHUB | Prison Life", "Serpent")
+    local PlayerStuff = Window:NewTab("Local Player")
+    local PlayerStuffSection = PlayerStuff:NewSection("Walkspeed")
+    local PlayerStuffSection2 = PlayerStuff:NewSection("Jumppower")
+    
+    
+    PlayerStuffSection:NewSlider("Walkspeed", "Change your walkspeed.", 250, 16, function(s) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
+    end)
+    PlayerStuffSection:NewTextBox("Walkspeed v2", "Change your walkspeed.", function(text)
+    	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = text
+    end)
+    PlayerStuffSection2:NewSlider("Jumppower", "Change your jumppower.", 250, 50, function(s) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = s
+    end)
+    PlayerStuffSection2:NewTextBox("Jumppower v2", "Change your jumppower.", function(text)
+    	game.Players.LocalPlayer.Character.Humanoid.JumpPower = text
+    end)
+    
+    local b = Window:NewTab("Weapons")
+    local bs1 = b:NewSection("Weapon Giver")
+    bs1:NewDropdown("Gun Menu", "Give yourself a gun.", {"M9", "Remington 870", "AK-47"}, function(v)
+        local args = {
+            [1] = workspace.Prison_ITEMS.giver[v].ITEMPICKUP
+        }
+        
+        workspace.Remote.ItemHandler:InvokeServer(unpack(args))
+        
+    end)
+
+    local bs2 = b:NewSection("Weapon Mods")
+    bs2:NewDropdown("Gun Mods", "Make a gun op.", {"M9", "Remington 870", "AK-47"}, function(v)
+        local module = nil
+        if game:GetService("Players").LocalPlayer.Backpack:FindFirstChild(v) then
+            module = require(game:GetService("Players").LocalPlayer.Backpack[v].GunStates)
+        elseif game:GetService("Players").LocalPlayer.Character:FindFirstChild(v) then
+            module = require(game:GetService("Players").LocalPlayer.Character[v].GunStates)
+        end
+        if module ~= nil then
+            module["MaxAmmo"] = math.huge
+            module["CurrentAmmo"] = math.huge
+            module["StoredAmmo"] = math.huge
+            module["FireRate"] = 0.000001
+            module["Spread"] = 0
+            module["Range"] = math.huge
+            module["Bullets"] = 10
+            module["ReloadTime"] = 0.000001
+            module["AutoFire"] = true
+        end
+    end)
+
+    local as2 = PlayerStuff:NewSection("Miscellaneous")
+    as2:NewKeybind("Reload Character", "KeybindInfo", Enum.KeyCode.V, function()
+        local args = {
+            [1] = game.Players.LocalPlayer
+        }
+        
+        workspace.Remote.loadchar:InvokeServer(unpack(args))
+    end)
+    local ct = Window:NewTab("Teleports")
+    local cts1 = ct:NewSection("Random Bullshit")
+    cts1:NewButton("Yard", "Teleport to the yard.", function()
+        local pos = CFrame.new(768.972778, 97.9999237, 2477.98071, 0.99990958, 0, -0.0134494444, 0, 1, 0, 0.0134494444, 0, 0.99990958)
+        local plyr = game.Players.LocalPlayer
+        plyr.Character.HumanoidRootPart.CFrame = pos
+    end)
+    cts1:NewButton("Cafeteria", "Teleport to the cafeteria.", function()
+        local pos = CFrame.new(926.319885, 99.9899368, 2289.07959, -0.99965483, 0, -0.0262726657, 0, 1, 0, 0.0262726657, 0, -0.99965483)
+        local plyr = game.Players.LocalPlayer
+        plyr.Character.HumanoidRootPart.CFrame = pos
+    end)
+    cts1:NewButton("Cell Blocks", "Teleport to the cell blocks.", function()
+        local pos = CFrame.new(917.187317, 99.9899673, 2452.70337, 0.999508202, -2.47819667e-08, 0.0313576534, 2.37016806e-08, 1, 3.48221576e-08, -0.0313576534, -3.40618023e-08, 0.999508202)
+        local plyr = game.Players.LocalPlayer
+        plyr.Character.HumanoidRootPart.CFrame = pos
+    end)
+
+elseif game.PlaceId == 2619187362 then
+    local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+    local Window = Library.CreateLib("InfinityHUB | SPFS", "Serpent")
+    local PlayerStuff = Window:NewTab("Local Player")
+    local PlayerStuffSection = PlayerStuff:NewSection("Walkspeed")
+    local PlayerStuffSection2 = PlayerStuff:NewSection("Jumppower")
+    
+    
+    PlayerStuffSection:NewSlider("Walkspeed", "Change your walkspeed.", 250, 16, function(s) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
+    end)
+    PlayerStuffSection:NewTextBox("Walkspeed v2", "Change your walkspeed.", function(text)
+    	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = text
+    end)
+    PlayerStuffSection2:NewSlider("Jumppower", "Change your jumppower.", 250, 50, function(s) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = s
+    end)
+    PlayerStuffSection2:NewTextBox("Jumppower v2", "Change your jumppower.", function(text)
+    	game.Players.LocalPlayer.Character.Humanoid.JumpPower = text
+    end)
+    
+    local a = Window:NewTab("Autofarm")
+    local as1 = a:NewSection("Training")
+    as1:NewToggle("Autofarm all", "Farms all stats.", function(state)
+        if state then
+            getgenv().autofarm = true
+            while autofarm == true do
+                local args = {
+                    [1] = "Strength"
+                }
+                
+                game:GetService("ReplicatedStorage").Events.Train:FireServer(unpack(args))
+                local args = {
+                    [1] = "Endurance"
+                }
+                
+                game:GetService("ReplicatedStorage").Events.Train:FireServer(unpack(args))
+                local args = {
+                    [1] = "Psychic"
+                }
+                
+                game:GetService("ReplicatedStorage").Events.Train:FireServer(unpack(args))
+                
+                wait(1)
+            end
+        else
+            getgenv().autofarm = false
+            while autofarm == true do
+            end
+        end
+    end)
+    as1:NewToggle("Autoquest", "Automate the process of claiming quests.", function(state)
+        if state then
+            getgenv().autoquest = true
+            while autoquest == true do
+            local args = {
+                [1] = "GamesReborn"
+            }
+            
+            game:GetService("ReplicatedStorage").Events.Quest:FireServer(unpack(args))
+            wait(1)
+        end
+        else
+            getgenv().autoquest = false
+            while autoquest == true do
+            end
+        end
+    end)
+    local b = Window:NewTab("Teleport")
+    local bsm = b:NewSection("Main")
+    bsm:NewButton("Spawn", "Teleport to spawn.", function()
+        local pos = CFrame.new(-412.060486, 70.7444839, -107.519936, 1, 2.26500187e-08, -2.07776266e-05, -2.26512515e-08, 1, -5.9347478e-08, 2.07776266e-05, 5.93479506e-08, 1)
+        local plyr = game.Players.LocalPlayer
+        plyr.Character.HumanoidRootPart.CFrame = pos
+    end)
+    bsm:NewButton("Goal Trainer", "Teleport to goal trainer.", function()
+        local pos = CFrame.new(394.82843, 82.8216553, -580.264282, -0.999392271, 0, -0.0348687991, 0, 1, 0, 0.0348687991, 0, -0.999392271)
+        local plyr = game.Players.LocalPlayer
+        plyr.Character.HumanoidRootPart.CFrame = pos
+    end)
+    local bs1 = b:NewSection("Strength")
+    bs1:NewButton("Rock (x2)", "Teleport to rock.", function()
+        local pos = CFrame.new(-290.381592, 87.647644, -144.596085, -0.623659492, -2.1114685e-10, 0.781696141, -2.66689615e-10, 1, 5.73411457e-11, -0.781696141, -1.72708889e-10, -0.623659492)
+        local plyr = game.Players.LocalPlayer
+        plyr.Character.HumanoidRootPart.CFrame = pos
+    end)
+    bs1:NewButton("Gym (x5)", "Teleport to gym.", function()
+        local pos = CFrame.new(-782.738037, 72.8042908, -350.996826, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+        local plyr = game.Players.LocalPlayer
+        plyr.Character.HumanoidRootPart.CFrame = pos
+    end)
+    bs1:NewButton("Car (x20)", "Teleport to car.", function()
+        local pos = CFrame.new(-138.216583, 69.9692917, -426.468567, 2.08616257e-06, 0.00292986305, -0.999995708, -3.02679837e-09, 0.999995708, 0.00292986305, 1, -3.02679837e-09, 2.08616257e-06)
+        local plyr = game.Players.LocalPlayer
+        plyr.Character.HumanoidRootPart.CFrame = pos
+    end)
+    bs1:NewButton("Forklift (x100)", "Teleport to forklift.", function()
+        local pos = CFrame.new(-964.414673, 70.5843277, -171.276917, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+        local plyr = game.Players.LocalPlayer
+        plyr.Character.HumanoidRootPart.CFrame = pos
+    end)
+    bs1:NewButton("Meteor (x750)", "Teleport to meteor.", function()
+        local pos = CFrame.new(-666.684937, 101.479324, -1150.85669, -1, 0, 0, 0, 1, 0, 0, 0, -1)
+        local plyr = game.Players.LocalPlayer
+        plyr.Character.HumanoidRootPart.CFrame = pos
+    end)
+    bs1:NewButton("Crystals (x10k)", "Teleport to crystals.", function()
+        local pos = CFrame.new(124.807785, 68.7882309, -511.888397, -0.866141438, 0, -0.499799222, 0, 1, 0, 0.499799222, 0, -0.866141438)
+        local plyr = game.Players.LocalPlayer
+        plyr.Character.HumanoidRootPart.CFrame = pos
+    end)
+    bs1:NewButton("Blue Planet (x75Qa)", "Teleport to blue planet.", function()
+        local pos = CFrame.new(-1672.21228, 5881.94238, -965.538879, -0.866141438, 0, -0.499799222, 0, 1, 0, 0.499799222, 0, -0.866141438)
+        local plyr = game.Players.LocalPlayer
+        plyr.Character.HumanoidRootPart.CFrame = pos
+    end)
+    bs1:NewButton("Red Planet (x3Qi)", "Teleport to red planet.", function()
+        local pos = CFrame.new(1788.0863, 6771.48926, -1067.94043, -0.866141438, 0, -0.499799222, 0, 1, 0, 0.499799222, 0, -0.866141438)
+        local plyr = game.Players.LocalPlayer
+        plyr.Character.HumanoidRootPart.CFrame = pos
+    end)
+    local c = Window:NewTab("Transform")
+    local cs1 = c:NewSection("Transform")
+    cs1:NewToggle("Transform toggle", "Toggle transformation.", function(state)
+        if state then
+            local args = {
+                [1] = true
+            }
+            
+            game:GetService("ReplicatedStorage").Events.Transform:FireServer(unpack(args))
+            
+        else
+            local args = {
+                [1] = false
+            }
+            
+            game:GetService("ReplicatedStorage").Events.Transform:FireServer(unpack(args))
+            
+        end
+    end)
+    local d = Window:NewTab("Daily Gift")
+    local ds1 = d:NewSection("Stuff")
+    ds1:NewToggle("Autoclaim Daily", "Autoclaim daily.", function(state)
+        if state then
+            getgenv().autogft = true
+            while autogift == true do
+            local args = {
+                [1] = "FreeGift"
+            }
+            
+            game:GetService("ReplicatedStorage").Events.DailyDeal:FireServer(unpack(args))
+            wait(5)
+        end
+        else
+            getgenv().autogft = false
+            while autogift == true do
+            local args = {
+                [1] = "FreeGift"
+            }
+            
+            game:GetService("ReplicatedStorage").Events.DailyDeal:FireServer(unpack(args))
+            wait(5)  
+        end
+        end
+    end)
+    local e = Window:NewTab("Chests")
+    local es1 = e:NewSection("Open")
+    es1:NewDropdown("Select Chest", "no info", {"BasicChest","VoidChest","ElementalChest","AlienChest","HalloweenChest","LightDarkChest","WinterChest","GalaxyChest","AncientGodChest","DarkPumpkinChest","HolidayChest","MythicalChest"}, function(v)
+        local args = {
+            [1] = v
+        }
+        
+        game:GetService("ReplicatedStorage").Events.PurchaseItem:FireServer(unpack(args))
+    end)
+    es1:NewToggle("Toggle Autochest", "Toggle autochest.", function(state)
+        if state then
+            getgenv().autochest = true
+        else
+            getgenv().autochest = false
+        end
+    end)
+    es1:NewDropdown("Autofarm Chest", "no info", {"BasicChest","VoidChest","ElementalChest","AlienChest","HalloweenChest","LightDarkChest","WinterChest","GalaxyChest","AncientGodChest","DarkPumpkinChest","HolidayChest","MythicalChest"}, function(v)
+        while autochest == true do
+        local args = {
+            [1] = v
+        }
+        
+        game:GetService("ReplicatedStorage").Events.PurchaseItem:FireServer(unpack(args))
+        wait(5)
+    end
+    end)
+end
