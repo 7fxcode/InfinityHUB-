@@ -145,33 +145,22 @@ elseif game.PlaceId == 2619187362 then
             end
         end
     end)
-    as1:NewToggle("Daily Quests", "self explanatory", function(state)
+    as1:NewToggle("Toggle Autodaily", "self explanatory", function(state)
         if state then
             getgenv().dailyq = true
-            while dailyq == true do
-                local args = {
-                    [1] = "DailyStrength"
-                }
-                
-                game:GetService("ReplicatedStorage").Events.Quest:FireServer(unpack(args))
-                local args = {
-                    [1] = "DailyEndurance"
-                }
-                
-                game:GetService("ReplicatedStorage").Events.Quest:FireServer(unpack(args))
-                local args = {
-                    [1] = "DailyPsychic"
-                }
-                
-                game:GetService("ReplicatedStorage").Events.Quest:FireServer(unpack(args))                                
-                wait(0.1)
-            end
         else
             getgenv().dailyq = false
-            while dailyq == true do
-            end
         end
     end)
+    as1:NewDropdown("Select Daily Quest", "self explanatory", {"DailyStrength", "DailyEndurance", "DailyPhysic"}, function(v)
+        local args = {
+            [1] = v
+        }
+        
+        game:GetService("ReplicatedStorage").Events.Quest:FireServer(unpack(args))
+        
+    end)
+    
     local b = Window:NewTab("Teleport")
     local bsm = b:NewSection("Main")
     bsm:NewButton("Spawn", "Teleport to spawn.", function()
