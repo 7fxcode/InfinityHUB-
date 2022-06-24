@@ -153,12 +153,14 @@ elseif game.PlaceId == 2619187362 then
         end
     end)
     as1:NewDropdown("Select Daily Quest", "self explanatory", {"DailyStrength", "DailyEndurance", "DailyPhysic"}, function(v)
+        while dailyq == true do
         local args = {
             [1] = v
         }
         
         game:GetService("ReplicatedStorage").Events.Quest:FireServer(unpack(args))
-        
+        wait(0.1)
+    end
     end)
     
     local b = Window:NewTab("Teleport")
