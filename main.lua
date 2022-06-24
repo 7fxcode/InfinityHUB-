@@ -1,6 +1,6 @@
 if game.PlaceId == 155615604 then
     local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-    local Window = Library.CreateLib("InfinityHUB | Prison Life", "Serpent")
+    local Window = Library.CreateLib("InfinityHUB | Prison Life", "Sentinel")
     local PlayerStuff = Window:NewTab("Local Player")
     local PlayerStuffSection = PlayerStuff:NewSection("Walkspeed")
     local PlayerStuffSection2 = PlayerStuff:NewSection("Jumppower")
@@ -79,7 +79,7 @@ if game.PlaceId == 155615604 then
 
 elseif game.PlaceId == 2619187362 then
     local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-    local Window = Library.CreateLib("InfinityHUB | SPFS", "Serpent")
+    local Window = Library.CreateLib("InfinityHUB | SPFS", "Sentinel")
     local PlayerStuff = Window:NewTab("Local Player")
     local PlayerStuffSection = PlayerStuff:NewSection("Walkspeed")
     local PlayerStuffSection2 = PlayerStuff:NewSection("Jumppower")
@@ -286,4 +286,243 @@ elseif game.PlaceId == 2619187362 then
         wait(5)
     end
     end)
-end
+elseif game.PlaceId == 8554378337 then
+    local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+    local Window = Library.CreateLib("InfinityHUB | Weapon Fighting", "Sentinel")
+    local PlayerStuff = Window:NewTab("Local Player")
+    local PlayerStuffSection = PlayerStuff:NewSection("Walkspeed")
+    local PlayerStuffSection2 = PlayerStuff:NewSection("Jumppower")
+    
+    
+    PlayerStuffSection:NewSlider("Walkspeed", "Change your walkspeed.", 250, 16, function(s) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
+    end)
+    PlayerStuffSection:NewTextBox("Walkspeed v2", "Change your walkspeed.", function(text)
+    	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = text
+    end)
+    PlayerStuffSection2:NewSlider("Jumppower", "Change your jumppower.", 250, 50, function(s) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = s
+    end)
+    PlayerStuffSection2:NewTextBox("Jumppower v2", "Change your jumppower.", function(text)
+    	game.Players.LocalPlayer.Character.Humanoid.JumpPower = text
+    end)
+
+elseif game.PlaceId == 9681073174 then
+    local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+    local Window = Library.CreateLib("InfinityHUB | Gym Simulator", "Sentinel")
+    local PlayerStuff = Window:NewTab("Local Player")
+    local PlayerStuffSection = PlayerStuff:NewSection("Walkspeed")
+    local PlayerStuffSection2 = PlayerStuff:NewSection("Jumppower")
+    
+    
+    PlayerStuffSection:NewSlider("Walkspeed", "Change your walkspeed.", 250, 16, function(s) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
+    end)
+    PlayerStuffSection:NewTextBox("Walkspeed v2", "Change your walkspeed.", function(text)
+    	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = text
+    end)
+    PlayerStuffSection2:NewSlider("Jumppower", "Change your jumppower.", 250, 50, function(s) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = s
+    end)
+    PlayerStuffSection2:NewTextBox("Jumppower v2", "Change your jumppower.", function(text)
+    	game.Players.LocalPlayer.Character.Humanoid.JumpPower = text
+    end)
+
+    local a = Window:NewTab("Autofarm")
+    local as1 = a:NewSection("Autofarm")
+    as1:NewToggle("Auto Tap", "ToggleInfo", function(state)
+        if state then
+            getgenv().autofarm = true
+            while autofarm == true do
+            local args = {
+                [1] = "Tapping"
+            }
+            
+            game:GetService("ReplicatedStorage").Remotes.Tapping:FireServer(unpack(args))
+            wait()
+        end
+            
+        else
+            getgenv().autofarm = false
+            while autofarm == true do
+                local args = {
+                    [1] = "Tapping"
+                }
+                
+                game:GetService("ReplicatedStorage").Remotes.Tapping:FireServer(unpack(args))
+                wait()     
+            end           
+        end
+    end)
+    as1:NewToggle("Auto Rank", "ToggleInfo", function(state)
+        if state then
+            getgenv().autorank = true
+            while autorank == true do
+                local args = {
+                    [1] = "Ranks",
+                    [2] = 2
+                }
+                
+                game:GetService("ReplicatedStorage").Remotes.RefeshClient:FireServer(unpack(args))
+                
+            wait()
+        end
+            
+        else
+            getgenv().autorank = false
+            while autorank == true do
+                local args = {
+                    [1] = "Ranks",
+                    [2] = 2
+                }
+                
+                game:GetService("ReplicatedStorage").Remotes.RefeshClient:FireServer(unpack(args))                
+                wait()     
+            end           
+        end
+    end)
+    as1:NewToggle("Auto Rebirth", "ToggleInfo", function(state)
+        if state then
+            getgenv().autorebirth = true
+            while autorebirth == true do
+                local args = {
+                    [1] = "Rebirths",
+                    [2] = 1
+                }
+                
+                game:GetService("ReplicatedStorage").Remotes.RefeshClient:FireServer(unpack(args))
+                
+                
+            wait()
+        end
+            
+        else
+            getgenv().autorebirth = false
+            while autorebirth == true do
+                local args = {
+                    [1] = "Rebirths",
+                    [2] = 1
+                }
+                
+                game:GetService("ReplicatedStorage").Remotes.RefeshClient:FireServer(unpack(args))
+                               
+                wait()     
+            end           
+        end
+    end)
+    as1:NewToggle("Auto Train", "ToggleInfo", function(state)
+        if state then
+            getgenv().autotrain = true
+            while autotrain == true do
+                local args = {
+                    [1] = "Training",
+                    [2] = workspace.__WORKSPACE.__Interact.Training
+                }
+                
+                game:GetService("ReplicatedStorage").Remotes.Training:FireServer(unpack(args))
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-34.8916779, -18.197382, -36.5971985, -0.142475709, -1.29524489e-08, 0.989798307, 7.00842007e-09, 1, 1.40947689e-08, -0.989798307, 8.94508467e-09, -0.142475709)
+            wait()
+        end
+            
+        else
+            getgenv().autotrain = false
+            while autotrain == true do
+                local args = {
+                    [1] = "Training",
+                    [2] = workspace.__WORKSPACE.__Interact.Training
+                }
+                
+                game:GetService("ReplicatedStorage").Remotes.Training:FireServer(unpack(args))
+                          
+                wait()     
+            end           
+        end
+    end)
+    local b = Window:NewTab("Buying")
+    local bs1 = b:NewSection("Stuff")
+    bs1:NewDropdown("Buy Trainer", "DropdownInf", {"Normal", "Robux"}, function(v)
+        local args = {
+            [1] = "Trainer",
+            [2] = v
+        }
+        
+        game:GetService("ReplicatedStorage").Remotes.RefeshClient:FireServer(unpack(args))
+    end)
+    local c = Window:NewTab("Teleports")
+    local cs1 = c:NewSection("Worlds")
+    cs1:NewButton("Little Island", "DropdownInf", function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1579.16687, -25.371151, -894.300476, 0.539543808, -0, -0.841957569, 0, 1, -0, 0.841957569, 0, 0.539543808)
+    end)
+    cs1:NewButton("Enchanted Island", "DropdownInf", function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1141.27563, -11.3708725, 1028.90576, 0.792211354, 0, 0.610246897, 0, 1, 0, -0.610246897, 0, 0.792211354)
+    end)
+    cs1:NewButton("Temple Island", "DropdownInf", function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-778.913818, -9.11101055, 3011.13037, 0.323495626, 0, 0.946229696, 0, 1, 0, -0.946229696, 0, 0.323495626)
+    end)
+    cs1:NewButton("Mythical Island", "DropdownInf", function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(714.253235, -12.5164509, 2529.4751, 0.0569093227, 0, 0.99837935, 0, 1, 0, -0.99837935, 0, 0.0569093227)
+    end)
+    cs1:NewButton("Beach Island", "DropdownInf", function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(2501.8999, -13.061512, -3112.41455, 0.841956973, 0, 0.539544642, 0, 1, 0, -0.539544642, 0, 0.841956973)
+    end)
+    cs1:NewButton("Flower Island", "DropdownInf", function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-360.420563, -10.1510496, 5211.03564, -0.998381972, 0, 0.0568631925, 0, 1, 0, -0.0568631925, 0, -0.998381972)
+    end)
+    cs1:NewButton("Volcano Island", "DropdownInf", function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1154.5697, -9.28933716, 676.369385, -0.998381972, 0, 0.0568631925, 0, 1, 0, -0.0568631925, 0, -0.998381972)
+    end)
+    cs1:NewButton("Cyber Island", "DropdownInf", function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1126.96008, -9.33895111, 316.783173, -0.998381972, 0, 0.0568631925, 0, 1, 0, -0.0568631925, 0, -0.998381972)
+    end)
+    local d = Window:NewTab("Miscellaneous")
+    local ds1 = d:NewSection("Toggle UI")
+    ds1:NewKeybind("Toggle UI", "KeybindInfo", Enum.KeyCode.V, function()
+        Library:ToggleUI()
+    end)
+else
+        -- Instances:
+
+    local ScreenGui = Instance.new("ScreenGui")
+    local Frame = Instance.new("Frame")
+    local UICorner = Instance.new("UICorner")
+    local TextLabel = Instance.new("TextLabel")
+    local UICorner_2 = Instance.new("UICorner")
+    local TextLabel_2 = Instance.new("TextLabel")
+
+    --Properties:
+
+    ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+    Frame.Parent = ScreenGui
+    Frame.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
+    Frame.Position = UDim2.new(0.336931378, 0, 0.413793117, 0)
+    Frame.Size = UDim2.new(0, 423, 0, 100)
+
+    UICorner.Parent = Frame
+
+    TextLabel.Parent = Frame
+    TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    TextLabel.Position = UDim2.new(0.262411356, 0, 0.25, 0)
+    TextLabel.Size = UDim2.new(0, 200, 0, 50)
+    TextLabel.Font = Enum.Font.Highway
+    TextLabel.Text = "Game not supported!"
+    TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+    TextLabel.TextScaled = true
+    TextLabel.TextSize = 14.000
+    TextLabel.TextWrapped = true
+
+    UICorner_2.Parent = TextLabel
+
+    TextLabel_2.Parent = Frame
+    TextLabel_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    TextLabel_2.BackgroundTransparency = 1.000
+    TextLabel_2.Position = UDim2.new(0.295508265, 0, -0.230000019, 0)
+    TextLabel_2.Size = UDim2.new(0, 171, 0, 40)
+    TextLabel_2.Font = Enum.Font.Highway
+    TextLabel_2.Text = "InfinityHUB"
+    TextLabel_2.TextColor3 = Color3.fromRGB(255, 0, 0)
+    TextLabel_2.TextScaled = true
+    TextLabel_2.TextSize = 14.000
+    TextLabel_2.TextWrapped = true
+    end
