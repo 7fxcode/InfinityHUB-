@@ -6,7 +6,18 @@ if game.PlaceId == 155615604 then
     local PlayerStuffSection2 = PlayerStuff:NewSection("Jumppower")
     local PlayerStuffSection3 = PlayerStuff:NewSection("Health Mods")
     
-    
+    local args = {
+        [1] = "[InfinityHUB] Loaded! Press V to Toggle UI.",
+        [2] = "All"
+    }
+
+    game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+
+    game:GetService("StarterGui"):SetCore("SendNotification",{
+        Title = "InfinityHUB loaded.", -- Required
+        Text = "InfinityHUB is ready to use! Press V to Toggle UI!.", -- Required
+    })
+
     PlayerStuffSection:NewSlider("Walkspeed", "Change your walkspeed.", 250, 16, function(s) -- 500 (MaxValue) | 0 (MinValue)
         game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
     end)
@@ -27,6 +38,16 @@ if game.PlaceId == 155615604 then
     local b = Window:NewTab("Weapons")
     local bs1 = b:NewSection("Weapon Giver")
     bs1:NewDropdown("Gun Menu", "Give yourself a gun.", {"M9", "Remington 870", "AK-47"}, function(v)
+        local args = {
+            [1] = "[InfinityHUB] Successfully gave "..v,
+            [2] = "All"
+        }
+        game:GetService("StarterGui"):SetCore("SendNotification",{
+            Title = "InfinityHUB", -- Required
+            Text = "Gave yourself "..v, -- Required
+        })
+        
+        game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
         local args = {
             [1] = workspace.Prison_ITEMS.giver[v].ITEMPICKUP
         }
