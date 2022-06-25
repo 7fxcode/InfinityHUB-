@@ -4,6 +4,7 @@ if game.PlaceId == 155615604 then
     local PlayerStuff = Window:NewTab("Local Player")
     local PlayerStuffSection = PlayerStuff:NewSection("Walkspeed")
     local PlayerStuffSection2 = PlayerStuff:NewSection("Jumppower")
+    local PlayerStuffSection3 = PlayerStuff:NewSection("Health Mods")
     
     
     PlayerStuffSection:NewSlider("Walkspeed", "Change your walkspeed.", 250, 16, function(s) -- 500 (MaxValue) | 0 (MinValue)
@@ -18,6 +19,10 @@ if game.PlaceId == 155615604 then
     PlayerStuffSection2:NewTextBox("Jumppower v2", "Change your jumppower.", function(text)
     	game.Players.LocalPlayer.Character.Humanoid.JumpPower = text
     end)
+    PlayerStuffSection3:NewSlider("Health", "Change your health.", 999, 1, function(s) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.Health = s
+    end)
+    
     
     local b = Window:NewTab("Weapons")
     local bs1 = b:NewSection("Weapon Giver")
@@ -29,9 +34,31 @@ if game.PlaceId == 155615604 then
         workspace.Remote.ItemHandler:InvokeServer(unpack(args))
         
     end)
+    bs1:NewDropdown("Tool Menu", "Give yourself a tool.", {"Key card", "Hammer", "Crude Knife"}, function(v)
+        local args = {
+            [1] = "[InfinityHUB] Successfully gave "..v,
+            [2] = "All"
+        }
+        
+        game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+        local args = {
+            [1] = workspace.Prison_ITEMS.single[v].ITEMPICKUP
+        }
+        
+        workspace.Remote.ItemHandler:InvokeServer(unpack(args))
+        
+        
+    end)
 
     local bs2 = b:NewSection("Weapon Mods")
     bs2:NewDropdown("Gun Mods", "Make a gun op.", {"M9", "Remington 870", "AK-47"}, function(v)
+        local args = {
+            [1] = "[InfinityHUB] Successfully modded "..v,
+            [2] = "All"
+        }
+        
+        game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+        
         local module = nil
         if game:GetService("Players").LocalPlayer.Backpack:FindFirstChild(v) then
             module = require(game:GetService("Players").LocalPlayer.Backpack[v].GunStates)
@@ -42,7 +69,7 @@ if game.PlaceId == 155615604 then
             module["MaxAmmo"] = math.huge
             module["CurrentAmmo"] = math.huge
             module["StoredAmmo"] = math.huge
-            module["FireRate"] = 0.000001
+            module["FireRate"] = 0.001
             module["Spread"] = 0
             module["Range"] = math.huge
             module["Bullets"] = 10
@@ -50,17 +77,19 @@ if game.PlaceId == 155615604 then
             module["AutoFire"] = true
         end
     end)
-
-    local as2 = PlayerStuff:NewSection("Miscellaneous")
-    as2:NewKeybind("Reload Character", "KeybindInfo", Enum.KeyCode.V, function()
-        local args = {
-            [1] = game.Players.LocalPlayer
-        }
-        
-        workspace.Remote.loadchar:InvokeServer(unpack(args))
-    end)
     local ct = Window:NewTab("Teleports")
     local cts1 = ct:NewSection("Random Bullshit")
+    cts1:NewTextBox("Teleport to player", "Teleport to a specific player.", function(v)
+        local args = {
+            [1] = "[InfinityHUB] Successfully teleported to "..v,
+            [2] = "All"
+        }
+        
+        game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+        plr = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+        plr2 = v
+        plr.CFrame = game.Players[plr2].Character.HumanoidRootPart.CFrame
+    end)
     cts1:NewButton("Yard", "Teleport to the yard.", function()
         local pos = CFrame.new(768.972778, 97.9999237, 2477.98071, 0.99990958, 0, -0.0134494444, 0, 1, 0, 0.0134494444, 0, 0.99990958)
         local plyr = game.Players.LocalPlayer
@@ -75,6 +104,65 @@ if game.PlaceId == 155615604 then
         local pos = CFrame.new(917.187317, 99.9899673, 2452.70337, 0.999508202, -2.47819667e-08, 0.0313576534, 2.37016806e-08, 1, 3.48221576e-08, -0.0313576534, -3.40618023e-08, 0.999508202)
         local plyr = game.Players.LocalPlayer
         plyr.Character.HumanoidRootPart.CFrame = pos
+    end)
+    local z = Window:NewTab("Godmode")
+    local zs1 = z:NewSection("Health Modifications")
+    zs1:NewToggle("Godmode (UNDETECTED)", "Toggle godmode.", function(s)
+        if s then
+            getgenv().godmode = true
+            while godmode == true do    
+                game:GetService("Players").LocalPlayer.Character.Humanoid.Health = 999
+            wait()
+            end
+        else
+            getgenv().godmode = false
+            while godmode == true do    
+                game:GetService("Players").LocalPlayer.Character.Humanoid.Health = 999
+            end
+        end
+        end)
+    local t = Window:NewTab("OP Stuff")
+    local ts1 = t:NewSection("bullshit")
+    ts1:NewButton("Kill Aura", "Kill aura.", function()
+        local args = {
+            [1] = "[InfinityHUB] KillAURA enabled.",
+            [2] = "All"
+        }
+        
+        game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+        
+        for i,v in pairs(game:GetService("Players"):GetChildren()) do
+            if v.UserId == game:GetService("Players").LocalPlayer.UserId then
+                print('Prevented InfinityHUB from killing you.')
+            else
+                while true do
+                local args = {
+                    [1] = v
+                }
+                
+                game:GetService("ReplicatedStorage").meleeEvent:FireServer(unpack(args))
+                wait()
+            end
+        end
+    end
+        end)
+        
+
+
+
+
+
+    local f = Window:NewTab("Miscellaneous")
+    local fs1 = f:NewSection("Miscellaneous")
+    fs1:NewKeybind("Toggle UI", "Toggle the UI.", Enum.KeyCode.V, function()
+        Library:ToggleUI()
+    end)
+    fs1:NewButton("Reload Character", "Reload Character.", function()
+        local args = {
+            [1] = game.Players.LocalPlayer
+        }
+        
+        workspace.Remote.loadchar:InvokeServer(unpack(args))
     end)
 
 elseif game.PlaceId == 2619187362 then
@@ -479,50 +567,402 @@ elseif game.PlaceId == 9681073174 then
     ds1:NewKeybind("Toggle UI", "KeybindInfo", Enum.KeyCode.V, function()
         Library:ToggleUI()
     end)
-else
-        -- Instances:
+elseif game.PlaceId == 1224212277 then
+    local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+    local Window = Library.CreateLib("InfinityHUB | Madcity", "Sentinel")
+    local PlayerStuff = Window:NewTab("Player")
+    local PlayerStuffSection = PlayerStuff:NewSection("Walkspeed")
+    local PlayerStuffSection2 = PlayerStuff:NewSection("Jumppower")
+    local PlayerStuffSection3 = PlayerStuff:NewSection("Health Mods")
+    
+    
+    PlayerStuffSection:NewSlider("Walkspeed", "Change your walkspeed.", 250, 16, function(s) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
+    end)
+    PlayerStuffSection:NewTextBox("Walkspeed v2", "Change your walkspeed.", function(text)
+    	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = text
+    end)
+    PlayerStuffSection2:NewSlider("Jumppower", "Change your jumppower.", 250, 50, function(s) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = s
+    end)
+    PlayerStuffSection2:NewTextBox("Jumppower v2", "Change your jumppower.", function(text)
+    	game.Players.LocalPlayer.Character.Humanoid.JumpPower = text
+    end)
+    PlayerStuffSection3:NewSlider("Health", "Change your health.", 100, 1, function(s)
+        game.Players.LocalPlayer.Character.Humanoid.Health = s
+    end)
+    PlayerStuffSection3:NewButton("Heal", "Change your health.", function()
+        game.Players.LocalPlayer.Character.Humanoid.Health = 100
+    end)
 
-    local ScreenGui = Instance.new("ScreenGui")
-    local Frame = Instance.new("Frame")
-    local UICorner = Instance.new("UICorner")
-    local TextLabel = Instance.new("TextLabel")
-    local UICorner_2 = Instance.new("UICorner")
-    local TextLabel_2 = Instance.new("TextLabel")
-
-    --Properties:
-
-    ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-    ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-    Frame.Parent = ScreenGui
-    Frame.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
-    Frame.Position = UDim2.new(0.336931378, 0, 0.413793117, 0)
-    Frame.Size = UDim2.new(0, 423, 0, 100)
-
-    UICorner.Parent = Frame
-
-    TextLabel.Parent = Frame
-    TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    TextLabel.Position = UDim2.new(0.262411356, 0, 0.25, 0)
-    TextLabel.Size = UDim2.new(0, 200, 0, 50)
-    TextLabel.Font = Enum.Font.Highway
-    TextLabel.Text = "Game not supported!"
-    TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
-    TextLabel.TextScaled = true
-    TextLabel.TextSize = 14.000
-    TextLabel.TextWrapped = true
-
-    UICorner_2.Parent = TextLabel
-
-    TextLabel_2.Parent = Frame
-    TextLabel_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    TextLabel_2.BackgroundTransparency = 1.000
-    TextLabel_2.Position = UDim2.new(0.295508265, 0, -0.230000019, 0)
-    TextLabel_2.Size = UDim2.new(0, 171, 0, 40)
-    TextLabel_2.Font = Enum.Font.Highway
-    TextLabel_2.Text = "InfinityHUB"
-    TextLabel_2.TextColor3 = Color3.fromRGB(255, 0, 0)
-    TextLabel_2.TextScaled = true
-    TextLabel_2.TextSize = 14.000
-    TextLabel_2.TextWrapped = true
+    local a = Window:NewTab("Godmode")
+    local as1 = a:NewSection("Health Modifications")
+    as1:NewToggle("Godmode", "Enable godmode.", function(state)
+        if state then
+            getgenv().godmode = true
+            while godmode == true do 
+                game.Players.LocalPlayer.Character.Humanoid.Health = 100
+                wait()
+            end
+        else
+            getgenv().godmode = false
+            while godmode == false do 
+                wait()
+            end
+        end
+    end)
+    local b = Window:NewTab("Teleport")
+    local bs1 = b:NewSection("Most used")
+    bs1:NewButton("Criminal Base", "Teleport to crim base.", function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1978.46997, 25.5052719, 418.69519, 0.0054009608, -2.6776652e-08, 0.999985397, 2.43965221e-08, 1, 2.66452762e-08, -0.999985397, 2.42522571e-08, 0.0054009608)
+    end)
+    bs1:NewButton("Criminal Base Inside", "Teleport to crim base inside.", function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(2097.12207, 26.5052834, 425.591888, -0.0105340052, 2.99662801e-08, -0.999944508, -1.8880904e-08, 1, 3.01668486e-08, 0.999944508, 1.91976337e-08, -0.0105340052)
+    end)
+    bs1:NewButton("Hero Base", "Teleport to Hero Base.", function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(2097.12207, 26.5052834, 425.591888, -0.0105340052, 2.99662801e-08, -0.999944508, -1.8880904e-08, 1, 3.01668486e-08, 0.999944508, 1.91976337e-08, -0.0105340052)
+    end)
+elseif game.PlaceId == 9555732501 then
+    local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+    local Window = Library.CreateLib("InfinityHUB | Nen Fighting Simulator", "Sentinel")
+    local PlayerStuff = Window:NewTab("Player")
+    local PlayerStuffSection = PlayerStuff:NewSection("Walkspeed")
+    local PlayerStuffSection2 = PlayerStuff:NewSection("Jumppower")
+    local PlayerStuffSection3 = PlayerStuff:NewSection("Health Mods")
+    
+    
+    PlayerStuffSection:NewSlider("Walkspeed", "Change your walkspeed.", 250, 16, function(s) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
+    end)
+    PlayerStuffSection:NewTextBox("Walkspeed v2", "Change your walkspeed.", function(text)
+    	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = text
+    end)
+    PlayerStuffSection2:NewSlider("Jumppower", "Change your jumppower.", 250, 50, function(s) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = s
+    end)
+    PlayerStuffSection2:NewTextBox("Jumppower v2", "Change your jumppower.", function(text)
+    	game.Players.LocalPlayer.Character.Humanoid.JumpPower = text
+    end)
+    PlayerStuffSection3:NewSlider("Health", "Change your health.", 100, 1, function(s)
+        game.Players.LocalPlayer.Character.Humanoid.Health = s
+    end)
+    PlayerStuffSection3:NewButton("Heal (100)", "Change your health.", function()
+        game.Players.LocalPlayer.Character.Humanoid.Health = 100
+    end)
+    local a = Window:NewTab("Autofarm")
+    local as1 = a:NewSection("Training")
+    as1:NewToggle("Auto Train", "ToggleInfo", function(state)
+        if state then
+            getgenv().autofarm = true
+            while autofarm == true do
+                local args = {
+                    [1] = "str"
+                }
+                
+                game:GetService("ReplicatedStorage").Remotes.train:FireServer(unpack(args))
+                local args = {
+                    [1] = "dur"
+                }
+                
+                game:GetService("ReplicatedStorage").Remotes.train:FireServer(unpack(args))
+                
+                local args = {
+                    [1] = "agi"
+                }
+                
+                game:GetService("ReplicatedStorage").Remotes.train:FireServer(unpack(args))
+                wait()
+            end    
+        else
+            getgenv().autofarm = false
+            while autofarm == true do
+                wait()
+            end
+        end
+        end)
+        as1:NewToggle("Durability (DONT USE BOTH AT SAME TIME)", "ToggleInfo", function(state)
+            if state then
+                getgenv().autofarm = true
+                while autofarm == true do
+                    local args = {
+                        [1] = "dur"
+                    }
+                    
+                    game:GetService("ReplicatedStorage").Remotes.train:FireServer(unpack(args))
+                    wait()
+                end    
+            else
+                getgenv().autofarm = false
+                while autofarm == true do
+                    wait()
+                end
+            end
+            end)
+    local misc = Window:NewTab("Miscellaneous")
+    local miscs1 = misc:NewSection("Miscellaneous")
+    miscs1:NewKeybind("Toggle UI", "KeybindInfo", Enum.KeyCode.V, function()
+        Library:ToggleUI()
+    end)
+elseif game.PlaceId == 7076693699 then
+    local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+    local Window = Library.CreateLib("InfinityHUB | Soda Simulator X", "Sentinel")
+    local PlayerStuff = Window:NewTab("Player")
+    local PlayerStuffSection = PlayerStuff:NewSection("Walkspeed")
+    local PlayerStuffSection2 = PlayerStuff:NewSection("Jumppower")
+    local PlayerStuffSection3 = PlayerStuff:NewSection("Health Mods")
+    
+    
+    PlayerStuffSection:NewSlider("Walkspeed", "Change your walkspeed.", 250, 16, function(s) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
+    end)
+    PlayerStuffSection:NewTextBox("Walkspeed v2", "Change your walkspeed.", function(text)
+    	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = text
+    end)
+    PlayerStuffSection2:NewSlider("Jumppower", "Change your jumppower.", 250, 50, function(s) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = s
+    end)
+    PlayerStuffSection2:NewTextBox("Jumppower v2", "Change your jumppower.", function(text)
+    	game.Players.LocalPlayer.Character.Humanoid.JumpPower = text
+    end)
+    PlayerStuffSection3:NewSlider("Health", "Change your health.", 100, 1, function(s)
+        game.Players.LocalPlayer.Character.Humanoid.Health = s
+    end)
+    PlayerStuffSection3:NewButton("Heal (100)", "Change your health.", function()
+        game.Players.LocalPlayer.Character.Humanoid.Health = 100
+    end)
+    local a = Window:NewTab("Autofarm")
+    local as1 = a:NewSection("Training")
+    as1:NewToggle("Auto Train", "ToggleInfo", function(state)
+        if state then
+            getgenv().autofarm = true
+            while autofarm == true do 
+                game:GetService("ReplicatedStorage").Assets.Events.Shake:FireServer()
+                wait()
+            end
+        else 
+            getgenv().autofarm = false
+            while autofarm == true do
+                wait()
+            end
+        end
+    end)
+    as1:NewToggle("Auto Sell", "ToggleInfo", function(state)
+        if state then
+            getgenv().autosell = true
+            while autosell == true do 
+                game:GetService("ReplicatedStorage").Assets.Events.TPSell:FireServer()
+                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-43.205349, 78.5764542, -137.19873, -0.952855229, 3.91579142e-08, -0.303425282, 3.9475772e-08, 1, 5.08599074e-09, 0.303425282, -7.13173387e-09, -0.952855229)
+                wait(3)
+            end 
+        else
+            getgenv().autosell = false
+                while autosell == true do 
+                    wait()
+                end
+            end
+        end)
+elseif game.PlaceId == 8540346411 then
+    local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+    local Window = Library.CreateLib("InfinityHUB | Rebirth Champions X", "Sentinel")
+    local PlayerStuff = Window:NewTab("Player")
+    local PlayerStuffSection = PlayerStuff:NewSection("Walkspeed")
+    local PlayerStuffSection2 = PlayerStuff:NewSection("Jumppower")
+    local PlayerStuffSection3 = PlayerStuff:NewSection("Health Mods")
+    
+    
+    PlayerStuffSection:NewSlider("Walkspeed", "Change your walkspeed.", 250, 16, function(s) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
+    end)
+    PlayerStuffSection:NewTextBox("Walkspeed v2", "Change your walkspeed.", function(text)
+    	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = text
+    end)
+    PlayerStuffSection2:NewSlider("Jumppower", "Change your jumppower.", 250, 50, function(s) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = s
+    end)
+    PlayerStuffSection2:NewTextBox("Jumppower v2", "Change your jumppower.", function(text)
+    	game.Players.LocalPlayer.Character.Humanoid.JumpPower = text
+    end)
+    PlayerStuffSection3:NewSlider("Health", "Change your health.", 100, 1, function(s)
+        game.Players.LocalPlayer.Character.Humanoid.Health = s
+    end)
+    PlayerStuffSection3:NewButton("Heal (100)", "Change your health.", function()
+        game.Players.LocalPlayer.Character.Humanoid.Health = 100
+    end)
+    local a = Window:NewTab("Auto Stuff")
+    local as1 = a:NewSection("Auto")
+    as1:NewToggle("Auto Tapping", "Auto tap.", function(state)
+        if state then
+            getgenv().autofarm = true
+            while autofarm == true do 
+                game:GetService("ReplicatedStorage").Events.Click3:FireServer()
+                wait()
+            end
+        else
+            getgenv().autofarm = false
+            while autofarm == true do
+                wait()
+            end
+        end
+    end)
+    as1:NewButton("Auto Coconut", "Auto coconut.", function()
+                for i,v in pairs(game:GetService("Workspace").Scripts.CoconutsFolder.SpawnPoints:GetChildren()) do
+                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
+                wait(0.1)
+            end
+    end)
+    as1:NewToggle("Auto Rebirth Toggle", "Auto rebirth.", function(state)
+        if state then
+            getgenv().autorebirth = true
+        else
+            getgenv().autorebirth = false
+        end
+    end)
+    as1:NewDropdown("Select Rebirth Type", "Auto Rebirth.", {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}, function(v)
+        while autorebirth == true do
+        local args = {
+            [1] = v
+        }
+        game:GetService("ReplicatedStorage").Events.Rebirth:FireServer(unpack(args))
+        wait(0.1)
     end
+    end)
+    local as2 = a:NewSection("Miscellaneous")
+    as2:NewButton("Anti Lag", "Miscellaneous", function()
+        local args = {
+            [1] = "HideAuras",
+            [2] = true
+        }
+        
+        game:GetService("ReplicatedStorage").Events.Setting:FireServer(unpack(args))
+        local args = {
+            [1] = "HideBoosts",
+            [2] = true
+        }
+        
+        game:GetService("ReplicatedStorage").Events.Setting:FireServer(unpack(args))
+        local args = {
+            [1] = "PopUp",
+            [2] = true
+        }
+        
+        game:GetService("ReplicatedStorage").Events.Setting:FireServer(unpack(args))
+    end)
+
+
+    local b = Window:NewTab("Chests")
+    local bs1 = b:NewSection("Open Chests")
+    bs1:NewButton("Open Summer Chest", "Open Chests", function()
+        local args = {
+            [1] = "Summer"
+        }
+        
+        game:GetService("ReplicatedStorage").Events.Chest:FireServer(unpack(args))
+    end)
+    bs1:NewButton("Open Group Chest", "Open Chests", function()
+        local args = {
+            [1] = "Group"
+        }
+        
+        game:GetService("ReplicatedStorage").Events.Chest:FireServer(unpack(args))
+    end)
+
+else
+    -- Gui to Lua
+-- Version: 3.2
+
+-- Instances:
+
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local UICorner = Instance.new("UICorner")
+local Title = Instance.new("TextLabel")
+local UICorner_2 = Instance.new("UICorner")
+local X = Instance.new("TextButton")
+local UICorner_3 = Instance.new("UICorner")
+local Message = Instance.new("TextLabel")
+local UICorner_4 = Instance.new("UICorner")
+local website = Instance.new("TextLabel")
+local UICorner_5 = Instance.new("UICorner")
+
+--Properties:
+
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
+Frame.Position = UDim2.new(0, 492, 0, 123)
+Frame.Size = UDim2.new(0, 384, 0, 309)
+
+UICorner.Parent = Frame
+
+Title.Name = "Title"
+Title.Parent = Frame
+Title.BackgroundColor3 = Color3.fromRGB(24, 24, 24)
+Title.Position = UDim2.new(0.236979172, 0, 0.0550161898, 0)
+Title.Size = UDim2.new(0, 200, 0, 50)
+Title.Font = Enum.Font.Highway
+Title.Text = "InfinityHUB"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 40.000
+Title.TextWrapped = true
+
+UICorner_2.Parent = Title
+
+X.Name = "X"
+X.Parent = Frame
+X.BackgroundColor3 = Color3.fromRGB(24, 24, 24)
+X.Position = UDim2.new(0.841145873, 0, 0.0258899666, 0)
+X.Size = UDim2.new(0, 53, 0, 53)
+X.Font = Enum.Font.Highway
+X.Text = "X"
+X.TextColor3 = Color3.fromRGB(170, 0, 0)
+X.TextScaled = true
+X.TextSize = 14.000
+X.TextWrapped = true
+
+UICorner_3.Parent = X
+
+Message.Name = "Message"
+Message.Parent = Frame
+Message.BackgroundColor3 = Color3.fromRGB(24, 24, 24)
+Message.BorderColor3 = Color3.fromRGB(24, 24, 24)
+Message.Position = UDim2.new(0.114583336, 0, 0.305594921, 0)
+Message.Size = UDim2.new(0, 296, 0, 170)
+Message.Font = Enum.Font.Highway
+Message.Text = "Seems like your current game is not yet supported by InfinityHUB. For the list of current games check our Github page!"
+Message.TextColor3 = Color3.fromRGB(255, 255, 255)
+Message.TextSize = 25.000
+Message.TextWrapped = true
+
+UICorner_4.Parent = Message
+
+website.Name = "website"
+website.Parent = Frame
+website.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+website.BackgroundTransparency = 1.000
+website.Position = UDim2.new(0.114583336, 0, 0.838187695, 0)
+website.Size = UDim2.new(0, 296, 0, 50)
+website.Font = Enum.Font.Highway
+website.Text = "github.com/7fxcode/InfinityHUB-"
+website.TextColor3 = Color3.fromRGB(255, 255, 255)
+website.TextScaled = true
+website.TextSize = 39.000
+website.TextWrapped = true
+
+UICorner_5.Parent = website
+
+-- Scripts:
+
+local function ODXXPT_fake_script() -- X.LocalScript 
+	local script = Instance.new('LocalScript', X)
+
+	local gui = script.Parent.Parent.Parent.Frame
+	
+	X.MouseButton1Click:Connect(function()
+		gui.Visible = false
+	end)
+end
+coroutine.wrap(ODXXPT_fake_script)()
+
+end
