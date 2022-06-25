@@ -167,11 +167,6 @@ if game.PlaceId == 155615604 then
         end
     end
         end)
-        
-
-
-
-
 
     local f = Window:NewTab("Miscellaneous")
     local fs1 = f:NewSection("Miscellaneous")
