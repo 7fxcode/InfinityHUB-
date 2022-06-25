@@ -81,7 +81,7 @@ if game.PlaceId == 155615604 then
     local cts1 = ct:NewSection("Random Bullshit")
     cts1:NewTextBox("Teleport to player", "Teleport to a specific player.", function(v)
         local args = {
-            [1] = "[InfinityHUB] Successfully teleported to "..v,
+            [1] = "[InfinityHUB] Successfully teleported to "..v..".",
             [2] = "All"
         }
         
