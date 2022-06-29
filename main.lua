@@ -33,6 +33,7 @@ if game.PlaceId == 155615604 then
     PlayerStuffSection3:NewSlider("Health", "Change your health.", 999, 1, function(s) -- 500 (MaxValue) | 0 (MinValue)
         game.Players.LocalPlayer.Character.Humanoid.Health = s
     end)
+
     
     
     local b = Window:NewTab("Weapons")
@@ -181,6 +182,27 @@ if game.PlaceId == 155615604 then
         workspace.Remote.loadchar:InvokeServer(unpack(args))
     end)
 
+elseif game.PlaceId == 8278412720 then 
+    local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+    local Window = Library.CreateLib("InfinityHUB | Prison Life: Remastered", "Sentinel")
+    local a = Window:NewTab("Player")
+    local as1 = a:NewSection("Walkspeed")
+    local as2 = a:NewSection("Jumppower")
+    as1:NewSlider("Walkspeed", "Change your walkspeed.", 250, 16, function(s) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
+    end)
+    as1:NewTextBox("Walkspeed v2", "Change your walkspeed.", function(text)
+    	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = text
+    end)
+    as2:NewSlider("Jumppower", "Change your jumppower.", 250, 50, function(s) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = s
+    end)
+    as2:NewTextBox("Jumppower v2", "Change your jumppower.", function(text)
+    	game.Players.LocalPlayer.Character.Humanoid.JumpPower = text
+    end)
+    local b = Window:NewTab("Weapon Stuff")
+    local bs1 = b:NewSection("Give Stuff")
+        
 elseif game.PlaceId == 2619187362 then
     local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
     local Window = Library.CreateLib("InfinityHUB | SPFS", "Sentinel")
@@ -881,7 +903,62 @@ elseif game.PlaceId == 8540346411 then
         
         game:GetService("ReplicatedStorage").Events.Chest:FireServer(unpack(args))
     end)
+elseif game.PlaceId == 5490351219 then
+    local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+    local Window = Library.CreateLib("InfinityHUB | Clicker Madness", "Sentinel")
+    local PlayerStuff = Window:NewTab("Local Player")
+    local PlayerStuffSection = PlayerStuff:NewSection("Walkspeed")
+    local PlayerStuffSection2 = PlayerStuff:NewSection("Jumppower")
+    local PlayerStuffSection3 = PlayerStuff:NewSection("Health Mods")
 
+    game:GetService("StarterGui"):SetCore("SendNotification",{
+        Title = "InfinityHUB loaded.", -- Required
+        Text = "InfinityHUB is ready to use! Press V to Toggle UI!.", -- Required
+    })
+
+    PlayerStuffSection:NewSlider("Walkspeed", "Change your walkspeed.", 250, 16, function(s) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
+    end)
+    PlayerStuffSection:NewTextBox("Walkspeed v2", "Change your walkspeed.", function(text)
+    	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = text
+    end)
+    PlayerStuffSection2:NewSlider("Jumppower", "Change your jumppower.", 250, 50, function(s) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = s
+    end)
+    PlayerStuffSection2:NewTextBox("Jumppower v2", "Change your jumppower.", function(text)
+    	game.Players.LocalPlayer.Character.Humanoid.JumpPower = text
+    end)
+    PlayerStuffSection3:NewSlider("Health", "Change your health.", 999, 1, function(s) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.Health = s
+    end)
+    
+    local a = Window:NewTab("Auto Stuff")
+    local as1 = a:NewSection("Bullshit")
+    as1:NewToggle("autotap", "some bullshit", function(s) 
+        if s then
+            getgenv().autotap = true
+            while autotap == true do
+                local args = {
+                    [1] = 1
+                }
+                
+                game:GetService("ReplicatedStorage").Aero.AeroRemoteServices.ClickService.Click:FireServer(unpack(args))
+                wait()
+            end
+        else
+            getgenv().autotap = false
+            while autotap == true do
+                wait()
+            end
+        end
+    end)
+    local b = Window:NewTab("du hund")
+    local bs1 = b:NewSection("teleport halt") 
+    bs1:NewTextBox("teleport nifty", "nichts", function(text)
+        local plr1 = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+        local plr2 = text
+        plr1.CFrame = game.Players[plr2].Character.HumanoidRootPart.CFrame
+    end)
 else
     -- Gui to Lua
 -- Version: 3.2
